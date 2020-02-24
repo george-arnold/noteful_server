@@ -8,9 +8,9 @@ const bodyParser = express.json();
 
 const serializeNote = note => ({
   id: note.id,
-  noteName: xss(note.note_name),
-  noteContent: xss(note.content_of_note),
-  folderId: note.folder_id
+  name: xss(note.name),
+  content: xss(note.content),
+  folderid: note.folderid
 });
 
 notesRouter
@@ -24,8 +24,8 @@ notesRouter
       .catch(next);
   })
   .post(bodyParser, (req, res, next) => {
-    const { note_name, content_of_note, folder_id } = req.body;
-    const newNote = { note_name, content_of_note, folder_id };
+    const { name, content, folderid } = req.body;
+    const newNote = { name, content, folderid };
 
     for (const [key, value] of Object.entries(newNote))
       if (value == null)
@@ -69,14 +69,14 @@ notesRouter
   })
 
   .patch(bodyParser, (req, res, next) => {
-    const { note_name, content_of_note, folder_id } = req.body;
-    const noteToUpdate = { note_name, content_of_note, folder_id };
+    const { name, content, folderid } = req.body;
+    const noteToUpdate = { name, content, folderid };
 
     const numberOfValues = Object.values(noteToUpdate).filter(Boolean).length;
     if (numberOfValues === 0)
       return res.status(400).json({
         error: {
-          message: `Request body ust contain either  note_name', 'content_of_note', or 'folder_id'`
+          message: `Request body ust contain either  name', 'content', or 'folderid'`
         }
       });
     NotesService.updateNote(req.app.get('db'), req.params.note_id, noteToUpdate)

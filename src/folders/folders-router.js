@@ -8,7 +8,7 @@ const bodyParser = express.json();
 
 const serializeFolder = folder => ({
   id: folder.id,
-  folderName: xss(folder.folder_name)
+  name: xss(folder.name)
 });
 
 folderRouter
@@ -21,13 +21,13 @@ folderRouter
       .catch(next);
   })
   .post(bodyParser, (req, res, next) => {
-    const { folder_name } = req.body;
-    const newFolder = { folder_name };
+    const { name } = req.body;
+    const newFolder = { name };
 
     if (!newFolder) {
-      logger.error(`folder_name is required`);
+      logger.error(`name is required`);
       return res.status(400).send({
-        error: { message: `'${folder_name}' is required` }
+        error: { message: `'${name}' is required` }
       });
     }
     FoldersService.insertFolder(req.app.get('db'), newFolder)
@@ -73,8 +73,8 @@ folderRouter
   })
 
   .patch(bodyParser, (req, res, next) => {
-    const { folder_name } = req.body;
-    const folderToUpdate = { folder_name };
+    const { name } = req.body;
+    const folderToUpdate = { name };
 
     const numberOfValues = Object.values(folderToUpdate).filter(Boolean).length;
     if (numberOfValues === 0) {
