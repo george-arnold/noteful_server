@@ -1,6 +1,6 @@
 const NotesService = {
   getAllNotes(knex) {
-    return knex.select('*').from('');
+    return knex.select('*').from('notes');
   },
   getNoteById(knex, id) {
     return knex
@@ -24,7 +24,7 @@ const NotesService = {
       .delete();
   },
   updateNote(knex, id, newNoteFields) {
-    return knex(notes)
+    return knex('notes')
       .where({ id })
       .update(newNoteFields);
   }

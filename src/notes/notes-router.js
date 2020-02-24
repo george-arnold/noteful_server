@@ -8,9 +8,9 @@ const bodyParser = express.json();
 
 const serializeNote = note => ({
   id: note.id,
-  note_name: xss(note.noteName),
-  content_of_note: xss(note.noteContent),
-  folder_id: note.folderId
+  note_name: xss(note.note_name),
+  content_of_note: xss(note.content_of_note),
+  folder_id: note.folder_id
 });
 
 notesRouter
@@ -18,14 +18,14 @@ notesRouter
   .get((req, res, next) => {
     const knexInstance = req.app.get('db');
     NotesService.getAllNotes(knexInstance)
-      .then(articles => {
-        res.json(articles.map(serializeNote));
+      .then(notes => {
+        res.json(notes).map(serializeNote);
       })
       .catch(next);
   })
   .post(bodyParser, (req, res, next) => {
-    const { noteName, noteContent, folderId } = req.body;
-    const newNote = { noteName, noteContent, folderId };
+    const { note_name, content_of_note, folder_id } = req.body;
+    const newNote = { note_name, content_of_note, folder_id };
 
     for (const [key, value] of Object.entries(newNote))
       if (value == null)
@@ -36,7 +36,7 @@ notesRouter
       .then(note => {
         res
           .status(201)
-          .location(path.posix.join(req.originalUrl, `/${article.id}`))
+          .location(path.posix.join(req.originalUrl, `/${note.id}`))
           .json(serializeNote(note));
       })
       .catch(next);
@@ -69,14 +69,14 @@ notesRouter
   })
 
   .patch(bodyParser, (req, res, next) => {
-    const { noteName, noteContent, folderId } = req.body;
-    const noteToUpdate = { noteName, noteContent, folderId };
+    const { note_name, content_of_note, folder_id } = req.body;
+    const noteToUpdate = { note_name, content_of_note, folder_id };
 
     const numberOfValues = Object.values(noteToUpdate).filter(Boolean).length;
     if (numberOfValues === 0)
       return res.status(400).json({
         error: {
-          message: `Request body ust contain either 'noteName', 'noteContent', or 'folderId'`
+          message: `Request body ust contain either  note_name', 'content_of_note', or 'folder_id'`
         }
       });
     NotesService.updateNote(req.app.get('db'), req.params.note_id, noteToUpdate)
