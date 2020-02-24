@@ -1,9 +1,9 @@
 const express = require('express');
 const FoldersService = require('./folders-service');
 const xss = require('xss');
-const logger = require('../logger');
+const logger = require('logger');
 
-const folderRouter = exrepss.Router();
+const folderRouter = express.Router();
 const bodyParser = express.json();
 
 const serializeFolder = folder => ({

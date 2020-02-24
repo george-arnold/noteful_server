@@ -1,7 +1,7 @@
 const path = require('path');
 const express = require('express');
 const xss = require('xss');
-const logger = require('../logger');
+const logger = require('logger');
 const NotesService = require('./notes-service');
 const notesRouter = express.Router();
 const bodyParser = express.json();
@@ -23,7 +23,7 @@ notesRouter
       })
       .catch(next);
   })
-  .post(jsonParser, (req, res, next) => {
+  .post(bodyParser, (req, res, next) => {
     const { noteName, noteContent, folderId } = req.body;
     const newNote = { noteName, noteContent, folderId };
 
@@ -42,20 +42,21 @@ notesRouter
       .catch(next);
   });
 
-notesRouter.route('/:note_id');
-all((req, res, next) => {
-  NotesService.getNoteById(req.app.get('db'), req.params.note_id)
-    .then(note => {
-      if (!note) {
-        return res.status(404).json({
-          error: { message: `Note doesn't exist` }
-        });
-      }
-      res.note = note;
-      next();
-    })
-    .catch(next);
-})
+notesRouter
+  .route('/:note_id')
+  .all((req, res, next) => {
+    NotesService.getNoteById(req.app.get('db'), req.params.note_id)
+      .then(note => {
+        if (!note) {
+          return res.status(404).json({
+            error: { message: `Note doesn't exist` }
+          });
+        }
+        res.note = note;
+        next();
+      })
+      .catch(next);
+  })
   .get((req, res, next) => {
     res.json(serializeNote(res.note));
   })
@@ -67,7 +68,7 @@ all((req, res, next) => {
       .catch(next);
   })
 
-  .patch(jsonParser, (req, res, next) => {
+  .patch(bodyParser, (req, res, next) => {
     const { noteName, noteContent, folderId } = req.body;
     const noteToUpdate = { noteName, noteContent, folderId };
 
