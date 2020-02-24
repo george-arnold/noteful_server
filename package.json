@@ -13,6 +13,9 @@
     "prettier": "prettier --print-width 120 --single-quote --write src/**/*.js"
   },
   "keywords": [],
+  "engines": {
+    "node": "12.13.1"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
