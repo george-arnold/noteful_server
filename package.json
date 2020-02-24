@@ -9,6 +9,7 @@
     "start": "node src/server.js",
     "predeploy": "npm audit",
     "deploy": "git push heroku master",
+    "migrate": "postgrator --config postgrator-config.js",
     "prettier": "prettier --print-width 120 --single-quote --write src/**/*.js"
   },
   "keywords": [],
@@ -21,6 +22,7 @@
     "helmet": "^3.21.2",
     "knex": "^0.20.10",
     "logger": "0.0.1",
+    "migrate": "^1.6.2",
     "morgan": "^1.9.1",
     "pg": "^7.18.2",
     "postgrator-cli": "^3.3.0",
