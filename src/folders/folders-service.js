@@ -13,11 +13,10 @@ const FoldersService = {
     return knex
       .insert(newFolder)
       .into('folders')
-      .returning(
-        '*'.then(rows => {
-          return rows[0];
-        })
-      );
+      .returning('*')
+      .then(rows => {
+        return rows[0];
+      });
   },
   deleteFolder(knex, id) {
     return knex('folders')

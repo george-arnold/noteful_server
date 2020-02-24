@@ -2,3 +2,7 @@
 {"message":"undefined is required","level":"error"}
 {"message":"test-folder is required","level":"error"}
 {"message":"test-folder is required","level":"error"}
+{"message":" Folder with id 2 created.","level":"info"}
+{"message":" Folder with id 3 created.","level":"info"}
+{"message":" Folder with id 5 created.","level":"info"}
+{"message":" Folder with id 6 created.","level":"info"}
