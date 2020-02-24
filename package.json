@@ -8,7 +8,8 @@
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
     "predeploy": "npm audit",
-    "deploy": "git push heroku master"
+    "deploy": "git push heroku master",
+    "prettier": "prettier --print-width 120 --single-quote --write src/**/*.js"
   },
   "keywords": [],
   "author": "",
@@ -19,7 +20,8 @@
     "express": "^4.17.1",
     "helmet": "^3.21.2",
     "knex": "^0.20.10",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "prettier": "^1.19.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
