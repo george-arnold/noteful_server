@@ -43,9 +43,9 @@ notesRouter
   });
 
 notesRouter
-  .route('/:note_id')
+  .route('/:noteid')
   .all((req, res, next) => {
-    NotesService.getNoteById(req.app.get('db'), req.params.note_id)
+    NotesService.getNoteById(req.app.get('db'), req.params.noteid)
       .then(note => {
         if (!note) {
           return res.status(404).json({
@@ -61,7 +61,7 @@ notesRouter
     res.json(serializeNote(res.note));
   })
   .delete((req, res, next) => {
-    NotesService.deleteNote(req.app.get('db'), req.params.note_id)
+    NotesService.deleteNote(req.app.get('db'), req.params.noteid)
       .then(numRowsAffected => {
         res.status(204).end();
       })
@@ -79,7 +79,7 @@ notesRouter
           message: `Request body ust contain either  name', 'content', or 'folderid'`
         }
       });
-    NotesService.updateNote(req.app.get('db'), req.params.note_id, noteToUpdate)
+    NotesService.updateNote(req.app.get('db'), req.params.noteid, noteToUpdate)
       .then(numRowsAffected => {
         res.status(204).end();
       })

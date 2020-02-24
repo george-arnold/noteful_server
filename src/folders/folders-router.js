@@ -42,14 +42,14 @@ folderRouter
   });
 
 folderRouter
-  .route('/:folder_id')
+  .route('/:folderid')
 
   .all((req, res, next) => {
-    const { folder_id } = req.params;
-    FoldersService.getByID(req.app.get('db'), folder_id)
+    const { folderid } = req.params;
+    FoldersService.getByID(req.app.get('db'), folderid)
       .then(folder => {
         if (!folder) {
-          logger.error(`Folder with id ${folder_id} not found`);
+          logger.error(`Folder with id ${folderid} not found`);
           return res.status(404).json({
             error: { message: `Folder Not Found` }
           });
@@ -63,10 +63,10 @@ folderRouter
     res.json(serializeFolder(res.folder));
   })
   .delete((req, res, next) => {
-    const { folder_id } = req.params;
-    FoldersService.deleteFolder(req.app.get('db'), folder_id)
+    const { folderid } = req.params;
+    FoldersService.deleteFolder(req.app.get('db'), folderid)
       .then(numRowsAffected => {
-        logger.info(`Folder if id ${folder_id} delete.`);
+        logger.info(`Folder if id ${folderid} delete.`);
         res.status(204).end();
       })
       .catch(next);
@@ -85,7 +85,7 @@ folderRouter
         }
       });
     }
-    FoldersService.updateFolder(req.app.get('db'), req.params.folder_id, folderToUpdate)
+    FoldersService.updateFolder(req.app.get('db'), req.params.folderid, folderToUpdate)
       .then(numRowsAffected => {
         res.status(204).end();
       })
